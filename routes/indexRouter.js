@@ -16,17 +16,39 @@ const messages = [
 ];
 
 indexRouter.get("/", (req, res) => {
-  res.render("index", { title: "Mini Message Board", messages: messages})
+  const user = req.session.username;
+
+  if (!user) {
+    return res.redirect("/username");
+  }
+  res.render("index", { 
+    title: "Mini Message Board", 
+    messages: messages, 
+    user: user 
+  })
+});
+
+// route to setting username
+indexRouter.get("/username", (req, res) => {
+  res.render("username-form");
 })
 
-indexRouter.get("/new", (req, res) => {
-  res.render("form")
+// post route to pass username to chat page
+indexRouter.post("/username", (req, res) => {
+  req.session.username = req.body.username;
+  res.redirect("/");
 })
 
-indexRouter.post("/new", (req, res) => {
+// indexRouter.get("/new", (req, res) => {
+//   res.render("form")
+// });
+
+indexRouter.post("/", (req, res) => {
+  const user = req.session.username;
+
   const newMsg = { 
     text: req.body.newMessage,
-    user: req.body.newName,
+    user: user,
     added: new Date(),
   }
 
