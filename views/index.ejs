@@ -8,18 +8,64 @@
 </head>
 <body>
   <div class="chat-box">
-    <% for (const message of messages) { %>
-    <div>
-      <h2> <%= message.user %> </h2>
-      <p> <%= message.text %> </p>
-      <p> <%= message.added %></p>
+    <div class="message-area">
+      <% for (const message of messages) { %>
+      <div class="message-blob">
+        <div class="message-blob-info">
+          <h2 class="message-sender"> <%= message.user %> </h2>
+          <p class="message-time">
+            <%= message.added.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+            }) %>
+          </p>
+        </div>
+        <p class="message-txt"><%= message.text %></p>
+      </div>
+      <% } %>
     </div>
-    <% } %>
-    <form class="input-message" action="/" method="post">
-      <textarea name="newMessage" id="input-message-txt"></textarea>
-      <button type="submit"> send </button>
-    </form>
+    <div class="input-area">
+      <p class="current-username"> Chatting as: <%= user %></p>
+      <form class="input-message" action="/" method="post">
+        <textarea name="newMessage" id="input-message-txt"></textarea>
+        <button type="submit"> send </button>
+      </form>
+    </div>
   </div>
 <!-- <a href="new"> new message </a> -->
+ <script>
+  const textarea = document.getElementById("input-message-txt");
+
+  textarea.addEventListener('input', function() {
+    // reset height on chat input message clearing
+    this.style.height = 'auto';
+    
+    // set height to scrollHeight (the internal height of the text)
+    this.style.height = (this.scrollHeight) + 'px';
+
+    // check if max-height is hit, then show the scrollbar
+    if (this.scrollHeight > this.clientHeight) {
+      this.classList.add('show-scroll');
+    } else {
+      this.classList.remove('show-scroll');
+    }
+  });
+
+  // auto-scroll logic
+  const messageArea = document.querySelector('.message-area');
+  
+  // set the scroll position to the very bottom
+  const scrollToBottom = () => {
+    messageArea.scrollTop = messageArea.scrollHeight;
+  };
+
+  // run it when the script loads
+  scrollToBottom();
+
+  window.addEventListener('load', scrollToBottom);
+ </script>
 </body>
 </html>

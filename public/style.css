@@ -35,4 +35,72 @@ body {
     flex-direction: column;
     height: 80%;
     width: 40%;
+    background-color: steelblue;
+    padding: 1rem;
+    position: relative;
+}
+
+.message-area {
+    max-height: 80%;
+    padding-right: 1rem;
+    overflow-y: scroll;
+}
+
+.input-area {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-top: auto;
+    width: 100%;
+}
+
+.input-message {
+    display: flex;
+    justify-self: flex-end;
+    margin-top: auto;
+}
+
+#input-message-txt {
+    flex-grow: 1;
+    resize: none;
+    overflow-y: hidden;
+    padding: 10px;
+    line-height: 1.5;
+    max-height: calc(1.5rem * 3 + 20px)
+}
+
+#input-message-txt.show-scroll {
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+.message-blob {
+    margin-bottom: 1rem;
+}
+
+.message-blob-info {
+    display: flex;
+}
+
+.message-sender {
+
+}
+
+.message-time {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    align-self: center;
+}
+
+.message-txt {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    /* preserve user manual line breaks */
+    white-space: pre-wrap;
+    width: fit-content;
+    max-width: 100%;
+    display: block;
+    background-color: grey;
+    padding: 0.5rem;
+    border-radius: 10px;
 }
