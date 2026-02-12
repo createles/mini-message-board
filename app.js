@@ -10,6 +10,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
+const PORT = process.env.port || 3000;
+
 app.use(session({
   secret: "blagadug",
   resave: false,
@@ -24,6 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
 
-app.listen(3000, () => {
-  console.log("Listening in on port 3000")
+app.listen(PORT, () => {
+  console.log(`Listening in on port ${PORT}`)
 });
