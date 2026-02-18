@@ -1,5 +1,17 @@
 import pool from "./pool.js";
 
+// find user by username; 
+// used to check for EXISTING users with a given name
+async function getUser(username) {
+  const { rows } = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
+  return rows[0];
+}
+
+async function createUser(username) {
+  const { rows } = await pool.query("INSERT INTO users (username) VALUES ($1) RETURNING *", [username]);
+  return rows[0];
+}
+
 async function getAllMessages() {
   // destructure the query object to just select the row data
   const { rows } = await pool.query(
@@ -9,26 +21,12 @@ async function getAllMessages() {
 }
 
 async function insertMessage(message) {
-  let result = await pool.query(`SELECT id FROM users WHERE username = $1`, [message.user]);
-  let userId;
-
-  if (result.rows.length > 0) {
-    userId = result.rows[0].id;
-  } else {
-
-    // step 1: create user and get id
-    const newRow = await pool.query("INSERT INTO users (username) VALUES ($1) RETURNING id",
-      [message.user]
-    );
-    userId = newRow.rows[0].id;
-  }
-  
   await pool.query("INSERT INTO messages (text, user_id) VALUES ($1, $2)", 
     [
     message.text,
-    userId,
+    message.userId,
     ]
   ); 
 }
 
-export { getAllMessages, insertMessage };
+export { getUser, createUser, getAllMessages, insertMessage };
