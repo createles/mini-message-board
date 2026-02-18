@@ -4,17 +4,30 @@ import pg from "pg";
 const { Client } = pg;
 
 const SQL = `
-CREATE TABLE IF NOT EXISTS messages (
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  username VARCHAR ( 255 ), 
+  username VARCHAR ( 255 ) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
   text VARCHAR ( 255 ),
+  user_id INTEGER REFERENCES users(id),
   added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO messages (username, text)
+INSERT INTO users (username)
 VALUES
-  ('Amando', 'Hi there!'),
-  ('Charles', 'Hello World!');
+ ('Jason'),
+ ('Ronaldo');
+
+INSERT INTO messages (text, user_id)
+VALUES
+  ('Hi there!', (SELECT id FROM users WHERE username = 'Jason')),
+  ('Hello world!', (SELECT id FROM users WHERE username = 'Ronaldo'));
 `;
 
 async function main() {
