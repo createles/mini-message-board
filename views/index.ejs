@@ -12,7 +12,7 @@
       <% for (const message of messages) { %>
       <div class="message-blob">
         <div class="message-blob-info">
-          <h2 class="message-sender"> <%= message.user %> </h2>
+          <h4 class="message-sender"> <%= message.username %> </h4>
           <p class="message-time">
             <%= message.added.toLocaleString('en-US', {
             month: 'short',
