@@ -1,32 +1,9 @@
 import { Router } from "express";
+import { getMessages, createMessage } from "../controllers/messageController.js";
 
 const indexRouter = Router();
 
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date()
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date()
-  }
-];
-
-indexRouter.get("/", (req, res) => {
-  const user = req.session.username;
-
-  if (!user) {
-    return res.redirect("/username");
-  }
-  res.render("index", { 
-    title: "Mini Message Board", 
-    messages: messages, 
-    user: user 
-  })
-});
+indexRouter.get("/", getMessages);
 
 // route to setting username
 indexRouter.get("/username", (req, res) => {
@@ -43,17 +20,6 @@ indexRouter.post("/username", (req, res) => {
 //   res.render("form")
 // });
 
-indexRouter.post("/", (req, res) => {
-  const user = req.session.username;
-
-  const newMsg = { 
-    text: req.body.newMessage,
-    user: user,
-    added: new Date(),
-  }
-
-  messages.push(newMsg);
-  res.redirect("/")
-})
+indexRouter.post("/", createMessage);
 
 export default indexRouter;
