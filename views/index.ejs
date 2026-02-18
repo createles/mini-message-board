@@ -10,7 +10,7 @@
   <div class="chat-box">
     <div class="message-area">
       <% for (const message of messages) { %>
-      <div class="message-blob">
+      <div class="message-blob <%= message.username === user ? 'sent' : 'received' %>">
         <div class="message-blob-info">
           <h4 class="message-sender"> <%= message.username %> </h4>
           <p class="message-time">
@@ -31,13 +31,22 @@
       <p class="current-username"> Chatting as: <%= user %></p>
       <form class="input-message" action="/" method="post">
         <textarea name="newMessage" id="input-message-txt"></textarea>
-        <button type="submit"> send </button>
+        <button type="submit" class="submit-btn" disabled> send </button>
       </form>
     </div>
   </div>
-<!-- <a href="new"> new message </a> -->
+
  <script>
   const textarea = document.getElementById("input-message-txt");
+  const sendBtn = document.querySelector(".submit-btn");
+
+  textarea.addEventListener('input', () => {
+    if (textarea.value.trim() === "") {
+      sendBtn.disabled = true;
+    } else {
+      sendBtn.disabled = false;
+    }
+  });
 
   textarea.addEventListener('input', function() {
     // reset height on chat input message clearing

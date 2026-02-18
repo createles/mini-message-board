@@ -44,6 +44,8 @@ body {
     max-height: 80%;
     padding-right: 1rem;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-area {
@@ -78,6 +80,10 @@ body {
     margin-bottom: 1rem;
 }
 
+.message-blob.sent {
+    margin-left: auto;
+}
+
 .message-blob-info {
     display: flex;
 }
@@ -103,4 +109,8 @@ body {
     background-color: grey;
     padding: 0.5rem;
     border-radius: 10px;
+}
+
+.sent .message-txt {
+    margin-left: auto;
 }
