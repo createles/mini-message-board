@@ -16,11 +16,11 @@ async function getMessages(req, res) {
 }
 
 async function createMessage(req, res) {
-  const user = req.session.username;
+  const userId = req.session.userId;
 
   const { newMessage } = req.body;
 
-  await insertMessage({ text: newMessage, user: user });
+  await insertMessage({ text: newMessage, userId: userId });
 
   res.redirect("/");
 }

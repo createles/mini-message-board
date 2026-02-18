@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getMessages, createMessage } from "../controllers/messageController.js";
+import { loginUser } from "../controllers/userController.js";
 
 const indexRouter = Router();
 
@@ -11,10 +12,7 @@ indexRouter.get("/username", (req, res) => {
 })
 
 // post route to pass username to chat page
-indexRouter.post("/username", (req, res) => {
-  req.session.username = req.body.username;
-  res.redirect("/");
-})
+indexRouter.post("/username", loginUser);
 
 // indexRouter.get("/new", (req, res) => {
 //   res.render("form")
