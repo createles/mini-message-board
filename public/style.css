@@ -89,13 +89,17 @@ body {
 }
 
 .message-sender {
+    padding-left: 0.2rem;
+}
 
+.message-sender.owner {
+    display: none;
 }
 
 .message-time {
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     align-self: center;
+    margin-top: 0.3rem;
 }
 
 .message-txt {

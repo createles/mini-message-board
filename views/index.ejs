@@ -12,18 +12,18 @@
       <% for (const message of messages) { %>
       <div class="message-blob <%= message.username === user ? 'sent' : 'received' %>">
         <div class="message-blob-info">
-          <h4 class="message-sender"> <%= message.username %> </h4>
-          <p class="message-time">
-            <%= message.added.toLocaleString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-            }) %>
-          </p>
+          <h4 class="message-sender <%= message.username === user ? 'owner' : ''%>"> <%= message.username %> </h4>
         </div>
         <p class="message-txt"><%= message.text %></p>
+        <p class="message-time">
+        <%= message.added.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+          }) %>
+        </p>
       </div>
       <% } %>
     </div>
@@ -39,6 +39,17 @@
  <script>
   const textarea = document.getElementById("input-message-txt");
   const sendBtn = document.querySelector(".submit-btn");
+  const form = document.querySelector(".input-message");
+
+  textarea.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+
+      if (textarea.value.trim() !== "") {
+        form.submit();
+      }
+    }
+  })
 
   textarea.addEventListener('input', () => {
     if (textarea.value.trim() === "") {
@@ -69,6 +80,7 @@
   // set the scroll position to the very bottom
   const scrollToBottom = () => {
     messageArea.scrollTop = messageArea.scrollHeight;
+    textarea.focus();
   };
 
   // run it when the script loads
