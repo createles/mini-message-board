@@ -98,8 +98,11 @@ body {
 
 .message-time {
     font-size: 0.7rem;
-    align-self: center;
     margin-top: 0.3rem;
+}
+
+.sent .message-time {
+    text-align: end;
 }
 
 .message-txt {
