@@ -7,8 +7,8 @@ async function getUser(username) {
   return rows[0];
 }
 
-async function createUser(username) {
-  const { rows } = await pool.query("INSERT INTO users (username) VALUES ($1) RETURNING *", [username]);
+async function createUser(username, password) {
+  const { rows } = await pool.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *", [username, password]);
   return rows[0];
 }
 

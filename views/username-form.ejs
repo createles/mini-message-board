@@ -1,21 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <form class="username-container" action="/username" method="post">
+    <% if (locals.error) { %>
+        <p class="error-msg"><%= error %></p>
+    <% } %>
+    <form id="auth-form" class="username-container" action="/signup" method="post">
+        <div class="login-method">
+            <div id="sign-up" class="selected-method"> Sign up </div>
+            <div id="login"> Log in </div>
+        </div>
         <div class="input-container">
             <label for="username-input" class="input-label">
-                Enter a username
+                Enter a username:
                 <input type="text" name="username" id="username-input">
+                <span class="username-feedback"></span>
+            </label>
+            <label for="password-input">
+                Enter a password:
+                <input type="password" name="password" id="password-input">
+            </label>
+            <label for="confirm-password" id="confirm-block">
+                Confirm password:
+                <input type="password" name="confirm-password" id="confirm-password-input">
             </label>
         </div>
-        <p> This will be used as your name in the chat. </p>
         <button type="submit"> Enter chat </button>
     </form>
+    <script>
+        const usernameInput = document.querySelector("#username-input");
+        const feedbackMsg = document.querySelector(".username-feedback");
+
+        let loginMethod = "sign up";
+
+        usernameInput.addEventListener("input", async (e) => {
+            const username = e.target.value;
+
+            if (username.length === 0) {
+                feedbackMsg.textContent = "";
+                return;
+            }
+
+            const response = await fetch(`/api/check-username?username=${username}`);
+            const data = await response.json();
+        
+            if (loginMethod === "sign up") {
+                if (data.available) {
+                    feedbackMsg.textContent = "Username is available!";
+                    feedbackMsg.style.color = "green";
+                } else {
+                    feedbackMsg.textContent = "Username is taken. Please log in.";
+                    feedbackMsg.style.color = "red";
+                }
+            }
+        });
+
+        const authForm = document.querySelector("#auth-form");
+        const signUp = document.querySelector("#sign-up");
+        const login = document.querySelector("#login");
+        const confirmPwd = document.querySelector("#confirm-block")
+
+        // When "Sign Up" is clicked
+        signUp.addEventListener("click", () => {
+            loginMethod = "sign up";
+            signUp.classList.add("selected-method");
+            login.classList.remove("selected-method");
+            confirmPwd.classList.remove("hidden");
+            authForm.action = "/signup";
+        });
+
+        // When "Log In" is clicked
+        login.addEventListener("click", () => {
+            loginMethod = "log in";
+            login.classList.add("selected-method");
+            signUp.classList.remove("selected-method");
+            confirmPwd.classList.add("hidden");
+            authForm.action = "/login"
+        });
+
+
+    </script>
 </body>
+
 </html>

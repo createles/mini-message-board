@@ -25,9 +25,27 @@ body {
     padding: 1rem;
 }
 
+.login-method {
+    display: flex;
+    gap: 1rem;
+}
+
+.login-method div {
+    background-color: darkblue;
+    color: whitesmoke;
+}
+
+.login-method div.selected-method {
+    background-color: rgb(1, 1, 44);
+}
+
 .input-container {
     display: flex;
     flex-direction: column;
+}
+
+.hidden {
+    display: none;
 }
 
 .chat-box {
