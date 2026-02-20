@@ -39,7 +39,7 @@ async function main() {
     user: process.env.USER,
     database: process.env.DB_NAME,
     password: process.env.PASSWORD,
-    port: process.env.PORT,
+    port: process.env.DB_PORT,
   });
 
   await client.connect();
