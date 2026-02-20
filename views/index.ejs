@@ -30,7 +30,14 @@
     <div class="input-area">
       <p class="current-username"> Chatting as: <%= user %></p>
       <form class="input-message" action="/" method="post">
-        <textarea name="newMessage" id="input-message-txt"></textarea>
+        <textarea 
+        name="newMessage" 
+        id="input-message-txt"
+        required
+        minlength="1"
+        maxlength="255"
+        placeholder="Type your message..."
+        ></textarea>
         <button type="submit" class="submit-btn" disabled> send </button>
       </form>
     </div>
@@ -51,6 +58,7 @@
     }
   })
 
+  // prevent blank "whitespace" messages
   textarea.addEventListener('input', () => {
     if (textarea.value.trim() === "") {
       sendBtn.disabled = true;
@@ -59,6 +67,18 @@
     }
   });
 
+  form.addEventListener("submit", (e) => {
+    let cleanText = textarea.value;
+
+    if (cleanText.trim() === "") {
+      e.preventDefault();
+      return;
+    }
+
+    textarea.value = cleanText;
+  })
+
+  // input area height adjustment event handler
   textarea.addEventListener('input', function() {
     // reset height on chat input message clearing
     this.style.height = 'auto';
