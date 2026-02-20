@@ -1,5 +1,6 @@
 import { getUser, createUser } from "../db/queries.js";
 import bcrypt from "bcryptjs";
+import { body, validationResult } from "express-validator";
 
 async function signupUser(req, res) {
   const { username, password } = req.body;
@@ -47,5 +48,16 @@ async function existingUserCheck(req, res) {
     res.json({ available: true }); // username is free
   }
 }
+
+const validateUser = [
+  body("username")
+    .trim()
+    .notEmpty().withMessage("Username cannot be empty.")
+    .isAlphanumeric().withMessage("Username must contain only letters and numbers.")
+    .isLength({ min: 1, max: 20 }).withMessage("Username must be between 1 and 20 characters."),
+  body("password")
+    .notEmpty().withMessage("Password is required.")
+    .isLength({ min: 4 }).withMessage("Password must be at least 4 characters.")
+];
 
 export { signupUser, loginUser, existingUserCheck };
