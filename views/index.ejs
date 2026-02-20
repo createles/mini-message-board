@@ -40,6 +40,9 @@
         ></textarea>
         <button type="submit" class="submit-btn" disabled> send </button>
       </form>
+      <% if (locals.error) { %>
+      <p class="error-msg" style="color: red;"><%= error %></p>
+      <% } %>
     </div>
   </div>
 
